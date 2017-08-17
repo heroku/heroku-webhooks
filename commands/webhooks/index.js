@@ -12,6 +12,8 @@ function * run (context, heroku) {
   if (webhooks.length === 0) {
     cli.log(`${cli.color.app(context.app)} has no webhooks\nUse ${cli.color.cmd('heroku webhooks:add')} to add one.`)
   } else {
+    webhooks.sort((a, b) => Date.parse(a['created_at']) - Date.parse(b['created_at']))
+
     cli.table(webhooks, {columns: [
       {key: 'id', label: 'Webhook ID'},
       {key: 'url', label: 'URL'},

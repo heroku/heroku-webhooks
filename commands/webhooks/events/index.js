@@ -12,6 +12,8 @@ function * run (context, heroku) {
   if (events.length === 0) {
     cli.log(`${cli.color.app(context.app)} has no events`)
   } else {
+    events.sort((a, b) => Date.parse(a['created_at']) - Date.parse(b['created_at']))
+
     cli.table(events, {columns: [
       {key: 'id', label: 'Event ID'},
       {key: 'resource', label: 'Resource', get: (w) => w.payload.resource},

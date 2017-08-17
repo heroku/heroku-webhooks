@@ -10,14 +10,30 @@ function * run (context, heroku) {
     method: 'GET'
   })
 
+  let event = yield heroku.request({
+    path: `/apps/${context.app}/webhook-events/${delivery.event.id}`,
+    headers: {Accept: 'application/vnd.heroku+json; version=3.webhooks'},
+    method: 'GET'
+  })
+
   let obj = {
+    created_at: delivery.created_at,
     event: delivery.event.id,
     webhook: delivery.webhook.id,
-    status: delivery.status
+    status: delivery.status,
+    include: delivery.event.include,
+    level: delivery.webhook.level,
+    num_attempts: delivery.num_attempts,
+    code: delivery.last_attempt && delivery.last_attempt.code,
+    error_class: delivery.last_attempt && delivery.last_attempt.error_class,
+    next_attempt_at: delivery.next_attempt_at
   }
 
   cli.styledHeader(delivery.id)
   cli.styledObject(obj)
+
+  cli.styledHeader('Event Payload')
+  cli.styledJSON(event.payload)
 }
 
 module.exports = {
