@@ -4,10 +4,8 @@ let co = require('co')
 let cli = require('heroku-cli-util')
 
 function * run (context, heroku) {
-  let deliveries = yield heroku.request({
-    path: `/apps/${context.app}/webhook-deliveries`,
-    headers: {Accept: 'application/vnd.heroku+json; version=3.webhooks'},
-    method: 'GET'
+  let deliveries = yield heroku.get(`/apps/${context.app}/webhook-deliveries`, {
+    headers: {Accept: 'application/vnd.heroku+json; version=3.webhooks'}
   })
   if (deliveries.length === 0) {
     cli.log(`${cli.color.app(context.app)} has no deliveries`)

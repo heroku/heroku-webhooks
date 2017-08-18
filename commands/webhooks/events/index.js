@@ -5,10 +5,8 @@ let cli = require('heroku-cli-util')
 
 function * run (context, heroku) {
   cli.warn('heroku webhooks:event is deprecated, please use heroku webhooks:deliveries')
-  let events = yield heroku.request({
-    path: `/apps/${context.app}/webhook-events`,
-    headers: {Accept: 'application/vnd.heroku+json; version=3.webhooks'},
-    method: 'GET'
+  let events = yield heroku.get(`/apps/${context.app}/webhook-events`, {
+    headers: {Accept: 'application/vnd.heroku+json; version=3.webhooks'}
   })
   if (events.length === 0) {
     cli.log(`${cli.color.app(context.app)} has no events`)

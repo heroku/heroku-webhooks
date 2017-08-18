@@ -4,14 +4,11 @@ let co = require('co')
 let cli = require('heroku-cli-util')
 
 function * run (context, heroku) {
-  let delivery = yield heroku.request({
-    path: `/apps/${context.app}/webhook-deliveries/${context.args.id}`,
-    headers: {Accept: 'application/vnd.heroku+json; version=3.webhooks'},
-    method: 'GET'
+  let delivery = yield heroku.get(`/apps/${context.app}/webhook-deliveries/${context.args.id}`, {
+    headers: {Accept: 'application/vnd.heroku+json; version=3.webhooks'}
   })
 
-  let event = yield heroku.request({
-    path: `/apps/${context.app}/webhook-events/${delivery.event.id}`,
+  let event = yield heroku.get(`/apps/${context.app}/webhook-events/${delivery.event.id}`, {
     headers: {Accept: 'application/vnd.heroku+json; version=3.webhooks'},
     method: 'GET'
   })
