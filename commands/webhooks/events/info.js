@@ -4,6 +4,7 @@ let co = require('co')
 let cli = require('heroku-cli-util')
 
 function * run (context, heroku) {
+  cli.warn('heroku webhooks:event:info is deprecated, please use heroku webhooks:deliveries:info')
   let webhookEvent = yield heroku.request({
     path: `/apps/${context.app}/webhook-events/${context.args.id}`,
     headers: {Accept: 'application/vnd.heroku+json; version=3.webhooks'},
@@ -29,5 +30,6 @@ module.exports = {
 `,
   needsApp: true,
   needsAuth: true,
+  hidden: true,
   run: cli.command(co.wrap(run))
 }
