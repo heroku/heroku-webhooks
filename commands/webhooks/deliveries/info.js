@@ -17,16 +17,16 @@ function * run (context, heroku) {
   })
 
   let obj = {
-    created_at: delivery.created_at,
-    event: delivery.event.id,
-    webhook: delivery.webhook.id,
-    status: delivery.status,
-    include: delivery.event.include,
-    level: delivery.webhook.level,
-    num_attempts: delivery.num_attempts,
-    code: delivery.last_attempt && delivery.last_attempt.code,
-    error_class: delivery.last_attempt && delivery.last_attempt.error_class,
-    next_attempt_at: delivery.next_attempt_at
+    'Created': delivery.created_at,
+    'Event': delivery.event.id,
+    'Webhook': delivery.webhook.id,
+    'Status': delivery.status,
+    'Include': delivery.event.include,
+    'Level': delivery.webhook.level,
+    'Attempts': delivery.num_attempts,
+    'Code': delivery.last_attempt && delivery.last_attempt.code,
+    'Error': delivery.last_attempt && delivery.last_attempt.error_class,
+    'Next Attempt': delivery.next_attempt_at
   }
 
   cli.styledHeader(delivery.id)
